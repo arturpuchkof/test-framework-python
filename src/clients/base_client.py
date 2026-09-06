@@ -11,8 +11,9 @@ class BaseClient:
         self._client = requests.Session()
 
 
-    def perform_get_request(self, path: str) -> requests.Response:
-        return self._client.get(self._base_url + path, headers=self._headers.model_dump())
+    def perform_get_request(self, path: str, delay: int = None) -> requests.Response:
+        params = {"delay": delay} if delay else None
+        return self._client.get(self._base_url + path, headers=self._headers.model_dump(), params=params)
 
 
     def perform_post_request(self, path: str, data: dict) -> requests.Response:

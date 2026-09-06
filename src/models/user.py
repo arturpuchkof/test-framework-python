@@ -111,3 +111,20 @@ class UpdateUserPayload(StrictBaseModel):
 class DeletedUserResponse(UserResponse):
     isDeleted: pydantic.StrictBool
     deletedOn: pydantic.StrictStr
+
+
+class UserNotFoundErrorResponse(StrictBaseModel):
+    message: pydantic.StrictStr
+
+
+class GenerateApiRequest(StrictBaseModel):
+    json: pydantic.StrictStr = pydantic.Field(default={})
+    method: pydantic.StrictStr = pydantic.Field(default='GET')
+
+
+class BadRequestResponse(StrictBaseModel):
+    status: pydantic.StrictInt = pydantic.Field(default=400)
+    title: pydantic.StrictStr
+    type: pydantic.StrictStr
+    detail: pydantic.StrictStr
+    message: pydantic.StrictStr

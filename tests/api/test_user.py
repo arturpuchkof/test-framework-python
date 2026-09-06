@@ -1,9 +1,12 @@
 import pytest
 
 
-from src.models.user import UserLoginResponse, UserResponse, UsersResponse, DeletedUserResponse
+from src.models.user import UserLoginResponse, UserResponse, UsersResponse, DeletedUserResponse, \
+    UserNotFoundErrorResponse, BadRequestResponse
 from src.variables import API_USERNAME
 
+
+# --------------positive test cases--------------------- #
 
 @pytest.mark.api
 def test_user_can_be_authorized(user_client):
@@ -92,3 +95,65 @@ def test_delete_user(authenticated_user_client, user_id):
     user = DeletedUserResponse.model_validate(response.json())
     assert user.isDeleted is True
     assert user.id_ == user_id
+
+
+# --------------negative test cases--------------------- #
+
+@pytest.mark.api
+def test_get_not_existing_user(authenticated_user_client):
+    user_client = authenticated_user_client
+    user_id = 9999999999
+    response = user_client.get_user(user_id=user_id)
+    assert response.status_code == 404
+    error_message = UserNotFoundErrorResponse.model_validate(response.json())
+    assert str(user_id) in error_message.message
+
+
+@pytest.mark.api
+def test_update_not_existing_user(authenticated_user_client):
+    user_client = authenticated_user_client
+    user_id = 9999999999
+    response = user_client.partially_update_user_fields(user_id=user_id)
+    assert response.status_code == 404
+    error_message = UserNotFoundErrorResponse.model_validate(response.json())
+    assert str(user_id) in error_message.message
+
+
+@pytest.mark.api
+def test_delete_not_existing_user(authenticated_user_client):
+    user_client = authenticated_user_client
+    user_id = 9999999999
+    response = user_client.delete_user(user_id=user_id)
+    assert response.status_code == 404
+    error_message = UserNotFoundErrorResponse.model_validate(response.json())
+    assert str(user_id) in error_message.message
+
+
+@pytest.mark.api
+def test_handle_400_error(authenticated_user_client):
+    user_client = authenticated_user_client
+    response = user_client.custom_http_response(status_code=400)
+    assert response.status_code == 400
+    error_message = BadRequestResponse.model_validate(response.json())
+    assert error_message.status == 400
+    assert error_message.message == 'Bad Request'
+
+
+@pytest.mark.api
+@pytest.mark.parametrize('delay', [1000, 2000, 3000, 4000, 5000])
+def test_delayed_get_user(authenticated_user_client, delay):
+    user_client = authenticated_user_client
+    response = user_client.get_user(user_id=1, delay=delay)
+    assert response.status_code == 200
+    assert response.elapsed.total_seconds() * 1000  >= delay
+
+
+@pytest.mark.api
+def test_empty_response_body(authenticated_user_client, generate_url_with_empty_resp):
+    user_client = authenticated_user_client
+    test_url = generate_url_with_empty_resp
+    response = user_client.perform_get_request(path=test_url.replace('https://dummyjson.com', ''))
+    assert response.status_code == 200
+    assert response.text == ''
+
+

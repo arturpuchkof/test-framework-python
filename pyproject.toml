@@ -8,6 +8,7 @@ dependencies = [
     "playwright>=1.62.0",
     "pydantic>=2.13.5",
     "pytest>=9.1.1",
+    "pytest-xdist>=3.8.0",
     "requests>=2.34.2",
 ]
 [tool.pytest.ini_options]
