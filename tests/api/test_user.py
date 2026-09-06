@@ -56,6 +56,7 @@ def test_add_user(authenticated_user_client):
     assert user.lastName == last_name
     assert user.age == age
 
+
 @pytest.mark.api
 def test_full_user_update(authenticated_user_client):
     user_client = authenticated_user_client

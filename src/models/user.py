@@ -29,7 +29,6 @@ class CryptoResponse(StrictBaseModel):
     network: pydantic.StrictStr
 
 
-
 class UserCoordinatesResponse(StrictBaseModel):
     lat: typing.Optional[pydantic.StrictFloat] = None
     lng: typing.Optional[pydantic.StrictFloat] = None
@@ -63,7 +62,6 @@ class UserBankResponse(StrictBaseModel):
 class UserHairAuthResponse(StrictBaseModel):
     color: pydantic.StrictStr
     type: pydantic.StrictStr
-
 
 
 class UserResponse(StrictBaseModel):
