@@ -21,7 +21,7 @@ uv --version
 3. Run sync:
 
 ```commandline
-uv synс
+uv sync
 ```
 uv sync creates a local .venv and installs every dependency pinned in pyproject.toml / uv.lock.
 
