@@ -118,7 +118,7 @@ class UserNotFoundErrorResponse(StrictBaseModel):
 
 
 class GenerateApiRequest(StrictBaseModel):
-    json: pydantic.StrictStr = pydantic.Field(default={})
+    json_body: typing.Dict = pydantic.Field(default_factory=dict, alias="json")
     method: pydantic.StrictStr = pydantic.Field(default='GET')
 
 
