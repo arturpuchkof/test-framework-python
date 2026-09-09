@@ -11,16 +11,16 @@ Step to install and run tests:
 
 for ux/mac run:
 
-```commandline
+```bash
 pip install uv
 ```
 2. After installation, open a new terminal window and verify:
-```commandline
+```bash
 uv --version
 ```
 3. Run sync:
 
-```commandline
+```bash
 uv sync
 ```
 uv sync creates a local .venv and installs every dependency pinned in pyproject.toml / uv.lock.
@@ -35,12 +35,16 @@ Windows (PowerShell):
 ```commandline
 .venv\Scripts\Activate.ps1
 ```
+5. Install playwright browser:
+```bash
+playwright install
+```
 
-5. Running the tests:
+6. Running the tests:
 
 All tests:
 
-```commandline
+```bash
 pytest -v
 ```
 API tests only:
@@ -48,10 +52,10 @@ API tests only:
 pytest -m api -v
 ```
 UI tests only:
-```commandline
+```bash
 pytest -m ui -v
 ```
 Run in parallel (multiple workers):
-```commandline
+```bash
 pytest -n auto -v
 ```
