@@ -35,7 +35,7 @@ def add_unitree_go2_robot_to_cart(chrome_browser_fixture):
     home_page.order_now_unitree_go2_button.click()
     products_page = ProductsPage(chrome_browser_fixture)
     price = products_page.current_price.text_content()
-    normalized_price = price[:6].replace('$', '').replace('USD', '').rstrip()
+    normalized_price = price[:6].replace('$', '').replace('USD', '').replace(',', '.').rstrip()
     products_page.add_to_cart_button.click()
     products_page.cart_button.click()
     cart_page = ShoppingCartPage(chrome_browser_fixture)
