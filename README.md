@@ -24,7 +24,7 @@ uv sync
 ```
 uv sync creates a local .venv and installs every dependency pinned in pyproject.toml / uv.lock.
 
-4. Activate the virtual environment so pytest runs directly, without prefixing every command with uv run:
+4. Activate the virtual environment:
 
 macOS / Linux
 ```commandline
@@ -76,7 +76,7 @@ dummyjson.com is a mock API — write operations (create/update/delete) don't pe
 
 UI (tests/ui/test_smoke_ui.py)
 
-Covers the core shopping flow on [shop.unitree.com]():
+Covers the core shopping flow on [shop.unitree.com](https://shop.unitree.com/) :
 
 - Login — authenticates with a real test account, verifies the account page.
 - Add to cart — adds a product, verifies the cart page and subtotal.
