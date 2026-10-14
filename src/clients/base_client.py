@@ -1,6 +1,7 @@
 import requests
 
 from src.models.headers import DefaultHeaders
+from src.utiity.logger import Logger
 from src.variables import BASE_URL
 
 
@@ -9,6 +10,8 @@ class BaseClient:
         self._base_url = base_url
         self._headers = headers
         self._client = requests.Session()
+        self._logger = Logger()
+        self._client.hooks["response"].append(self._logger.log_response)
 
 
     def perform_get_request(self, path: str, delay: int = None) -> requests.Response:
