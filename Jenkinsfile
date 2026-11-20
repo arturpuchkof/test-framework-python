@@ -52,7 +52,7 @@ pipeline {
     post {
         always {
             junit allowEmptyResults: true, testResults: 'reports/report.xml'
-            allure includeProperties: false, results: [[path: 'allure-results']]
+            allure includeProperties: false, results: [[path: '/app/allure-results']]
             sh 'docker rmi $IMAGE || true'
             cleanWs()
         }
