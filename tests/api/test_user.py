@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 
@@ -9,6 +10,7 @@ from src.variables import API_USERNAME
 # --------------positive test cases--------------------- #
 
 @pytest.mark.api
+@allure.title("User can be authorized")
 def test_user_can_be_authorized(user_client):
     response = user_client.login_user()
     assert response.status_code == 200
@@ -18,6 +20,7 @@ def test_user_can_be_authorized(user_client):
 
 
 @pytest.mark.api
+@allure.title('Get authenticated user')
 def test_get_current_authenticated_user(authenticated_user_client):
     response = authenticated_user_client.get_current_authentication()
     assert response.status_code == 200
@@ -27,6 +30,7 @@ def test_get_current_authenticated_user(authenticated_user_client):
 
 @pytest.mark.api
 @pytest.mark.parametrize('user_id', [1, 50, 100])
+@allure.title('Get authenticated user with user id {user_id}')
 def test_get_single_user(authenticated_user_client, user_id):
     user_client = authenticated_user_client
     response = user_client.get_user(user_id)
@@ -36,6 +40,7 @@ def test_get_single_user(authenticated_user_client, user_id):
 
 
 @pytest.mark.api
+@allure.title('Get all users')
 def test_get_all_users(authenticated_user_client):
     user_client = authenticated_user_client
     response = user_client.get_all_users()
@@ -47,6 +52,7 @@ def test_get_all_users(authenticated_user_client):
 
 
 @pytest.mark.api
+@allure.title('Add new user')
 def test_add_user(authenticated_user_client):
     user_client = authenticated_user_client
     user_name = 'TestFirstName-1'
@@ -61,6 +67,7 @@ def test_add_user(authenticated_user_client):
 
 
 @pytest.mark.api
+@allure.title('Update full user name')
 def test_full_user_update(authenticated_user_client):
     user_client = authenticated_user_client
     user_name = 'TestFirstName-2'
@@ -76,6 +83,7 @@ def test_full_user_update(authenticated_user_client):
 
 
 @pytest.mark.api
+@allure.title('Partially update user')
 def test_partial_user_update(authenticated_user_client):
     user_client = authenticated_user_client
     user_name = 'TestFirstName-3'
@@ -88,6 +96,7 @@ def test_partial_user_update(authenticated_user_client):
 
 @pytest.mark.api
 @pytest.mark.parametrize('user_id', [1, 50, 100])
+@allure.title('Delete user with user id: {user_id}')
 def test_delete_user(authenticated_user_client, user_id):
     user_client = authenticated_user_client
     response = user_client.delete_user(user_id)
@@ -100,6 +109,7 @@ def test_delete_user(authenticated_user_client, user_id):
 # --------------negative test cases--------------------- #
 
 @pytest.mark.api
+@allure.title('Impossible create user with invalid user id')
 def test_get_not_existing_user(authenticated_user_client):
     user_client = authenticated_user_client
     user_id = 9999999999
@@ -110,6 +120,7 @@ def test_get_not_existing_user(authenticated_user_client):
 
 
 @pytest.mark.api
+@allure.title('Impossible update not existing user')
 def test_update_not_existing_user(authenticated_user_client):
     user_client = authenticated_user_client
     user_id = 9999999999
@@ -120,6 +131,7 @@ def test_update_not_existing_user(authenticated_user_client):
 
 
 @pytest.mark.api
+@allure.title('Impossible delete not existing user')
 def test_delete_not_existing_user(authenticated_user_client):
     user_client = authenticated_user_client
     user_id = 9999999999
@@ -130,6 +142,7 @@ def test_delete_not_existing_user(authenticated_user_client):
 
 
 @pytest.mark.api
+@allure.title('Test handle 400 error')
 def test_handle_400_error(authenticated_user_client):
     user_client = authenticated_user_client
     response = user_client.custom_http_response(status_code=400)
@@ -141,6 +154,7 @@ def test_handle_400_error(authenticated_user_client):
 
 @pytest.mark.api
 @pytest.mark.parametrize('delay', [1000, 2000, 3000, 4000, 5000])
+@allure.title('Get user with delay in {delay} ms')
 def test_delayed_get_user(authenticated_user_client, delay):
     user_client = authenticated_user_client
     response = user_client.get_user(user_id=1, delay=delay)
@@ -149,6 +163,7 @@ def test_delayed_get_user(authenticated_user_client, delay):
 
 
 @pytest.mark.api
+@allure.title('Test empty body response handling')
 def test_empty_response_body(authenticated_user_client, generate_url_with_empty_resp):
     user_client = authenticated_user_client
     test_url = generate_url_with_empty_resp

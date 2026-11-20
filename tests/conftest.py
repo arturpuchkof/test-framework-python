@@ -1,6 +1,8 @@
 import pytest
 from playwright.sync_api import sync_playwright
 
+from src.clients.mqtt_client import MqttClient
+
 
 @pytest.fixture()
 def chrome_browser_fixture():
@@ -11,3 +13,10 @@ def chrome_browser_fixture():
         yield page
         page.close()
         browser.close()
+
+
+@pytest.fixture()
+def mqtt_client():
+    mqttc = MqttClient()
+    mqttc.on_subscribe()
+    yield mqttc

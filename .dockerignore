@@ -1,0 +1,9 @@
+.git
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+allure-results
+allure-report
+.env
+Jenkinsfile
