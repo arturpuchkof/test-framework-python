@@ -1,4 +1,4 @@
 name: API Tests
 output: ./allure-report
-historyPath: ./history.jsonl
+historyPath: /var/jenkins_home/allure-history/api-tests.jsonl
 appendHistory: true
