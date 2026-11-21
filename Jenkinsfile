@@ -30,23 +30,23 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                sh '''
-                    mkdir -p allure-results reports
-                    docker run --rm \
-                        -u "$(id -u):$(id -g)" \
-                        -v "$WORKSPACE/allure-results:/app/allure-results" \
-                        -v "$WORKSPACE/reports:/app/reports" \
-                        $IMAGE \
-                        $TEST_PATH \
-                        ${MARKER:+-m "$MARKER"} \
-                        -n $WORKERS \
-                        -p no:cacheprovider \
-                        --alluredir=allure-results \
-                        --junitxml=reports/report.xml
-                '''
-            }
-        }
+    steps {
+        sh '''
+            CONTAINER=autotests-$BUILD_NUMBER
+            rc=0
+            docker run --name $CONTAINER $IMAGE \
+                tests -n 4 -p no:cacheprovider \
+                --alluredir=allure-results \
+                --junitxml=reports/report.xml || rc=$?
+
+            rm -rf allure-results reports
+            docker cp $CONTAINER:/app/allure-results ./allure-results || true
+            docker cp $CONTAINER:/app/reports ./reports || true
+            docker rm -f $CONTAINER
+            exit $rc
+        '''
+    }
+}
     }
 
     post {
